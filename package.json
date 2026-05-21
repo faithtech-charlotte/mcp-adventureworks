@@ -1,0 +1,27 @@
+{
+  "name": "mcp-adventureworks",
+  "version": "1.0.0",
+  "description": "Workshop MCP server using AdventureWorks — connects Claude to SQL Server via natural language",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "node dist/server.js",
+    "inspector": "npx @modelcontextprotocol/inspector http://localhost:3000/mcp",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "express": "^4.18.2",
+    "mssql": "^10.0.1",
+    "zod": "^4.4.3",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mssql": "^9.1.4",
+    "@types/node": "^20.10.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.2"
+  }
+}
