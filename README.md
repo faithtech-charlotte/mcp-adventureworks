@@ -2,12 +2,6 @@
 
 **Workshop demo repo** — Build an MCP server in TypeScript that lets Claude query AdventureWorks via natural language in Claude.ai chat.
 
-> **Workshop attendees:** Clone the `starter` branch, not `main`.
->
-> ```bash
-> git clone -b starter https://github.com/your-org/mcp-adventureworks
-> ```
-
 ---
 
 ## What This Is
