@@ -82,16 +82,58 @@ npm run inspector
 
 ### 5. Connect to Claude.ai
 
-Your server needs to be reachable from the internet. For local dev, use [ngrok](https://ngrok.com):
+Your server needs to be reachable from the internet over HTTPS. Pick one of the options below.
+
+#### Option A: ngrok (quickest, ephemeral URL)
 
 ```bash
 npx ngrok http 3000
 # Outputs: https://abc123.ngrok-free.app
 ```
 
-In Claude.ai:
+The free tier gives you a new random URL every restart — you'll have to update the integration in Claude.ai each time.
+
+#### Option B: Microsoft Dev Tunnels (persistent, same URL across restarts)
+
+If you'd rather not re-paste a new URL every session, create a named dev tunnel once and reuse it. Requires the [`devtunnel` CLI](https://learn.microsoft.com/en-us/azure/developer/dev-tunnels/get-started).
+
+**One-time setup:**
+
+```bash
+devtunnel user login
+
+# Create a named tunnel — the ID becomes part of the URL
+devtunnel create mcp-adventureworks --allow-anonymous
+
+# Bind it to port 3000
+devtunnel port create mcp-adventureworks -p 3000 --protocol http
+```
+
+**Each time you want to expose the server:**
+
+```bash
+npm run dev                           # in one terminal
+devtunnel host mcp-adventureworks     # in another
+```
+
+The hosted URL looks like `https://mcp-adventureworks-3000.usw2.devtunnels.ms` and stays stable as long as the tunnel exists (idle tunnels expire after ~30 days — just `devtunnel host` again to keep it alive).
+
+Useful commands:
+
+```bash
+devtunnel list                        # show all your tunnels
+devtunnel show mcp-adventureworks     # print the exact URL
+devtunnel delete mcp-adventureworks   # remove it
+```
+
+> **Note:** Dev Tunnels only lets you customize the tunnel ID, not the full domain. If you need a true vanity hostname (`mcp.yourcompany.com`), use Cloudflare Tunnel or a paid ngrok reserved domain instead.
+
+#### Configure the integration in Claude.ai
+
+Whichever option you chose:
+
 1. **Settings → Integrations → Add Integration**
-2. Paste your SSE URL: `https://abc123.ngrok-free.app/sse`
+2. Paste your SSE URL: `https://<your-tunnel-host>/mcp`
 3. Open a new chat, enable the integration toggle
 4. Ask a question — Claude will call your tools automatically
 
